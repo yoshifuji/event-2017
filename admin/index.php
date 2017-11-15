@@ -32,6 +32,8 @@ $sth->execute();
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -48,7 +50,15 @@ $sth->execute();
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"/>
+
     <link rel="stylesheet" href="css/ranking.css"/>
+    <script>
+        $(document).ready(function() {
+            $('#ranking').DataTable();
+        } );
+    </script>
 </head>
 <body>
 <h1> Fuyu Fes 2017 </h1>
@@ -81,7 +91,7 @@ $sth->execute();
 -->
 <div class="row">
     <div class="col-md-10">
-        <table class="table">
+        <table id="ranking" class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>チェック</th>
