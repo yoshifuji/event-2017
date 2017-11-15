@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+@media (min-width: 992px){
+    #btn_action {
+        margin: 20px 0 0 10px;
+    }
+}
