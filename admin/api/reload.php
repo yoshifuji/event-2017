@@ -22,18 +22,8 @@ try {
 $sth = $dbh->prepare("SELECT * FROM instagenic LIMIT 10");
 $sth->execute();
 
-//$return_arr = array();
-//foreach ($sth as $row) {
-//    $row_array['id']            = $row['id'];
-//    $row_array['image_name']    = $row['image_name'];
-//    $row_array['user_name']     = $row['user_name'];
-//    $row_array['score']         = $row['score'];
-//    array_push($return_arr, $row_array);
-//}
-
 $return_str = "";
 $cnt = 0;
-
 foreach ($sth as $row) {
     $return_str .= ($cnt % 2 == 0) ? '<tr role="row" class="even">' : '<tr role="row" class="odd">';
     $return_str .= '<td class="sorting_1"><div><label><input type="checkbox"></label></div></td>';
@@ -51,7 +41,5 @@ foreach ($sth as $row) {
     $cnt++;
 }
 
-//$return_str .= json_encode($return_arr);
 echo $return_str;
-
 ?>
