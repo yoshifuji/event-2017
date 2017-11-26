@@ -53,12 +53,18 @@ $sth->execute();
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"/>
 
+    <!-- customize -->
     <link rel="stylesheet" href="css/ranking.css"/>
     <script>
         $(document).ready(function() {
-            $('#ranking').DataTable();
-        } );
+            $('#ranking').DataTable({
+                paging: false,
+                searching: false
+            });
     </script>
+    <!-- modal window -->
+    <script src="js/modal_setting.js"></script>
+    <script src="js/table_data.js"></script>
 </head>
 <body>
 <h1> Fuyu Fes 2017 </h1>
@@ -68,6 +74,12 @@ $sth->execute();
         <ul class="nav navbar-nav">
             <li><a href="#">インスタ映え</a></li>
             <li><a href="#">ナイスカップル</a></li>
+            <li>
+            <!-- モーダル表示 -->
+            <button id="btn-setting" class="btn btn-primary" data-toggle="modal" data-target="#modal-example">
+                設定画面
+            </button>
+            </li>
         </ul>
     </div>
 </nav>
@@ -95,8 +107,8 @@ $sth->execute();
             <thead>
             <tr>
                 <th>チェック</th>
-                <th>画像</th>
                 <th>#</th>
+                <th>画像</th>
                 <th>画像名</th>
                 <th>ユーザー名</th>
                 <th>スコア</th>
@@ -109,12 +121,13 @@ $sth->execute();
             </thead>
             <tbody>
                 <?php
+                //初回呼び出し分
                 $cnt = 0;
                 foreach ($sth as $row) {
                     echo '<tr>';
                     echo '<td><div><label><input type="checkbox"></label></div></td>';
-                    echo '<td><img class="img-thumbnail" src="img/'.($cnt+1).'.jpg" width="100" height="100"></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
+                    echo '<td><img class="img-thumbnail" src="img/'.($cnt+1).'.jpg" width="100" height="100"></td>';
                     echo '<td>'.htmlspecialchars($row['image_name']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_name']).'</td>';
                     echo '<td>'.htmlspecialchars($row['score']).'</td>';
@@ -132,11 +145,32 @@ $sth->execute();
     </div>
 </div>
 
-<div id="btn_action">
+<div class="btn_action">
     <p>
-        <button type="button" class="btn btn-default">Reload</button>
-        <button type="button" class="btn btn-danger">Disable</button>
+        <button type="button" class="btn btn-default" id="btnReload">Reload</button>
+        <button type="button" class="btn btn-danger" id="btnDisable">Disable</button>
     </p>
+</div>
+
+<!-- モーダル画面 -->
+<div class="modal" id="modal-example" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modal-label">ダイアログ</h4>
+            </div>
+            <div class="modal-body">
+                ここに内容を書く
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                <button type="button" class="btn btn-primary" id="btnSave">保存</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

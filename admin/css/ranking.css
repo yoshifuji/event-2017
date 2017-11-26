@@ -1,7 +1,11 @@
 @charset "UTF-8";
 
 @media (min-width: 992px){
-    #btn_action {
-        margin: 20px 0 0 10px;
+    .btn_action {
+        margin: 20px 0 20px 10px;
     }
+}
+
+#btn-setting {
+    margin: 8px 0 0 24px;
 }
