@@ -12,6 +12,9 @@ $DBNAME     = $ini_array['DBNAME'];
 $USERNAME   = $ini_array['USERNAME'];
 $PWD        = $ini_array['PWD'];
 
+ini_set('log_errors', 'On');
+ini_set('error_log', '../error.log');
+
 try {
     $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
         array(PDO::ATTR_EMULATE_PREPARES => false));
@@ -19,6 +22,36 @@ try {
     exit('データベース接続失敗。'.$e->getMessage());
 }
 
+/*
+ * DB更新
+ */
+try{
+    //パラメータ取得
+    $arrChecks = json_decode($_POST['checks']);
+
+//    ob_start();
+//    print_r($arrChecks);
+//    $out = ob_get_contents();
+//    ob_end_clean();
+//    file_put_contents("../hoge.txt", $out, FILE_APPEND);
+
+    //DB更新
+    $sql = "UPDATE instagenic SET is_enable = :is_enable WHERE id = :id";
+    $sth = $dbh->prepare($sql);
+
+    foreach ($arrChecks as $val) {
+        $sth->execute(array(
+                ':is_enable' => 0,
+                ':id' => $val)
+        );
+    }
+} catch (Exception $e) {
+    error_log($e->getMessage());
+}
+
+/*
+ * データ再出力
+ */
 try{
     $sth = $dbh->prepare("SELECT * FROM instagenic WHERE is_enable = 1 LIMIT 10");
     $sth->execute();

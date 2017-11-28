@@ -18,7 +18,7 @@ try {
     exit('データベース接続失敗。'.$e->getMessage());
 }
 
-$sth = $dbh->prepare("SELECT * FROM instagenic LIMIT 10");
+$sth = $dbh->prepare("SELECT * FROM instagenic WHERE is_enable = 1 LIMIT 10");
 $sth->execute();
 ?>
 <!DOCTYPE html>
@@ -61,6 +61,7 @@ $sth->execute();
                 paging: false,
                 searching: false
             });
+        })
     </script>
     <!-- modal window -->
     <script src="js/modal_setting.js"></script>
@@ -80,6 +81,16 @@ $sth->execute();
                 設定画面
             </button>
             </li>
+            <div id="search-bar" class="col-xs-6 col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="txtSearch"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </ul>
     </div>
 </nav>
@@ -125,7 +136,7 @@ $sth->execute();
                 $cnt = 0;
                 foreach ($sth as $row) {
                     echo '<tr>';
-                    echo '<td><div><label><input type="checkbox"></label></div></td>';
+                    echo '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
                     echo '<td><img class="img-thumbnail" src="img/'.($cnt+1).'.jpg" width="100" height="100"></td>';
                     echo '<td>'.htmlspecialchars($row['image_name']).'</td>';
