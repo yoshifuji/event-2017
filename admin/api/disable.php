@@ -64,6 +64,7 @@ try{
         $return_str .= '<td>'.htmlspecialchars($row['id']).'</td>';
         $return_str .= '<td><img class="img-thumbnail" src="img/'.($cnt+1).'.jpg" width="100" height="100"></td>';
         $return_str .= '<td>'.htmlspecialchars($row['image_name']).'</td>';
+        $return_str .= '<td>'.htmlspecialchars($row['user_id']).'</td>';
         $return_str .= '<td>'.htmlspecialchars($row['user_name']).'</td>';
         $return_str .= '<td>'.htmlspecialchars($row['score']).'</td>';
         $return_str .= '<td>'.htmlspecialchars($row['category']).'</td>';

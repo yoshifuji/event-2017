@@ -1,4 +1,6 @@
 .idea/
 img/*
 *ini
+*log
+*txt
 tags.lock
