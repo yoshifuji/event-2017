@@ -18,7 +18,12 @@ try {
     exit('データベース接続失敗。'.$e->getMessage());
 }
 
-$sth = $dbh->prepare("SELECT * FROM instagenic WHERE is_enable = 1 LIMIT 10");
+$sql = "SELECT inst.* FROM instagenic inst";
+$sql .= " INNER JOIN (SELECT user_id, MAX(score) AS maxscore FROM instagenic GROUP BY user_id) groupscore";
+$sql .= " ON inst.user_id = groupscore.user_id AND inst.score = groupscore.maxscore";
+$sql .= " WHERE 1 AND is_enable = 1 ORDER BY score DESC LIMIT 10";
+
+$sth = $dbh->prepare($sql);
 $sth->execute();
 ?>
 <!DOCTYPE html>
@@ -81,17 +86,65 @@ $sth->execute();
                 設定画面
             </button>
             </li>
-            <div id="search-bar" class="col-xs-6 col-md-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" id="txtSearch"/>
-                    <div class="input-group-btn">
-                        <button class="btn btn-primary" type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
         </ul>
+    </div>
+</nav>
+
+<!-- 検索条件指定 -->
+<nav class="navbar navbar-light bg-faded rounded navbar-toggleable-md">
+    <div class="collapse navbar-collapse" id="containerSearch">
+        <form id="searchForm" class="form-inline">
+            <div class="search-elem">
+                <span id="chkLineid">
+                    <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                        <input type="checkbox" class="custom-control-input" checked>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">LineIDを重複しない(ユーザーの最高点の画像のみ表示)</span>
+                    </label>
+                </span>
+                <span id="chkInactive">
+                    <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">非アクティブな(無効とした)レコードも表示する</span>
+                    </label>
+                </span>
+            </div>
+            <div class="search-elem">
+                <span id="txtDateFrom">
+                    <label for="validationCustom04">投稿日時(開始)</label>
+                    <input type="text" class="form-control" id="validationCustom04" placeholder="yyyy/MM/dd hh:mm:ss">
+                </span>
+                　〜　
+                <span id="txtDateTo">
+                    <label for="validationCustom04">投稿日時(終了)</label>
+                    <input type="text" class="form-control" id="validationCustom04" placeholder="yyyy/MM/dd hh:mm:ss">
+                </span>
+                <caption>　※投稿日時は yyyy/MM/dd の表記でも検索できます</caption>
+            </div>
+            <div class="search-elem">
+                <span id="category">
+                    <label class="mr-sm-2" for="inlineFormCustomSelectPref">カテゴリ</label>
+                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
+                        <option value="1">all</option>
+                        <option value="2">test</option>
+                        <option value="3">test</option>
+                    </select>
+                </span>
+                <span id="subcategory">
+                    <label class="mr-sm-2" for="inlineFormCustomSelectPref">サブカテゴリ</label>
+                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
+                        <option value="1">all</option>
+                        <option value="2">test</option>
+                        <option value="3">test</option>
+                    </select>
+                </span>
+            </div>
+            <div class="search-elem">
+                <button type="button" id="btnSearch" class="btn btn-primary">検索</button>
+            </div>
+        </form>
     </div>
 </nav>
 
@@ -114,7 +167,7 @@ $sth->execute();
 -->
 <div class="row">
     <div class="col-md-10">
-        <table id="ranking" class="table table-striped table-bordered">
+        <table id="ranking" class="table table-striped table-bordered table-hover">
             <thead>
             <tr>
                 <th>チェック</th>
@@ -124,8 +177,8 @@ $sth->execute();
                 <th>ユーザーID</th>
                 <th>ユーザー名</th>
                 <th>スコア</th>
-                <th>カテゴリー</th>
-                <th>サブカテゴリー</th>
+                <th>カテゴリ</th>
+                <th>サブカテゴリ</th>
                 <th>isEnable</th>
                 <th>登録日時</th>
                 <th>更新日時</th>
@@ -139,7 +192,7 @@ $sth->execute();
                     echo '<tr>';
                     echo '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
-                    echo '<td><img class="img-thumbnail" src="img/'.($cnt+1).'.jpg" width="100" height="100"></td>';
+                    echo '<td><img class="img-thumbnail" src="https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/'.($cnt+1).'.jpg" width="100" height="100"></td>';
                     echo '<td>'.htmlspecialchars($row['image_name']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_id']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_name']).'</td>';
@@ -160,7 +213,7 @@ $sth->execute();
 
 <div class="btn_action">
     <p>
-        <button type="button" class="btn btn-default" id="btnReload">Reload</button>
+<!--        <button type="button" class="btn btn-default" id="btnReset">Reset</button>-->
         <button type="button" class="btn btn-danger" id="btnDisable">Disable</button>
     </p>
 </div>

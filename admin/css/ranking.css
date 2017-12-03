@@ -14,3 +14,11 @@
     margin: 0 0 0 234px;
     padding: 8px 0 0 0;
 }
+
+.search-elem{
+    padding: 10px 0 0px 0;
+}
+
+#chkInactive, #subcategory{
+    padding: 0 0 0 20px;
+}

@@ -20,7 +20,8 @@ try {
 }
 
 try{
-    $sth = $dbh->prepare("SELECT * FROM instagenic WHERE is_enable = 1 LIMIT 10");
+    $sql = "SELECT * FROM instagenic WHERE is_enable = 1 ORDER BY score DESC LIMIT 10";
+    $sth = $dbh->prepare($sql);
     $sth->execute();
 
     $return_str = "";
@@ -29,7 +30,7 @@ try{
         $return_str .= ($cnt % 2 == 0) ? '<tr role="row" class="even">' : '<tr role="row" class="odd">';
         $return_str .= '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
         $return_str .= '<td>'.htmlspecialchars($row['id']).'</td>';
-        $return_str .= '<td><img class="img-thumbnail" src="img/'.($cnt+1).'.jpg" width="100" height="100"></td>';
+        $return_str .= '<td><img class="img-thumbnail" src="https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/'.($cnt+1).'.jpg" width="100" height="100"></td>';
         $return_str .= '<td>'.htmlspecialchars($row['image_name']).'</td>';
         $return_str .= '<td>'.htmlspecialchars($row['user_id']).'</td>';
         $return_str .= '<td>'.htmlspecialchars($row['user_name']).'</td>';

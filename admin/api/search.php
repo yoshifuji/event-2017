@@ -12,9 +12,6 @@ $DBNAME     = $ini_array['DBNAME'];
 $USERNAME   = $ini_array['USERNAME'];
 $PWD        = $ini_array['PWD'];
 
-ini_set('log_errors', 'On');
-ini_set('error_log', '../error.log');
-
 try {
     $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
         array(PDO::ATTR_EMULATE_PREPARES => false));
@@ -22,42 +19,43 @@ try {
     exit('データベース接続失敗。'.$e->getMessage());
 }
 
-/*
- * DB更新
- */
 try{
-    //パラメータ取得
-    $arrChecks = json_decode($_POST['checks']);
+    $isIncludedLineidDuplicated = isset($_POST['chkIncludedLineid']) ? $_POST['chkIncludedLineid'] : null;
+    $isIncludedInactive         = isset($_POST['chkIncludedInactive']) ? $_POST['chkIncludedInactive'] : null;
+    $dateFrom                   = $_POST['txtDateFrom']; //"2017/11/20";
+    $dateTo                     = $_POST['txtDateTo']; //"2017/11/25";
+    $category                   = $_POST['slctCategory']; //"test";
+    $subcategory                = $_POST['slctSubCategory']; //"test";
 
-//    ob_start();
-//    print_r($hoge);
-//    echo is_null($hoge) ? 'null' : 1;
-//    $out = ob_get_contents();
-//    ob_end_clean();
-//    file_put_contents("../hoge.txt", $out, FILE_APPEND);
+    //sql生成
+    $sql = "SELECT * FROM instagenic WHERE 1";
+
+    if ($isIncludedLineidDuplicated){
+        $sql = "SELECT inst.* FROM instagenic inst INNER JOIN";
+        $sql .= " (SELECT user_id, MAX(score) AS maxscore FROM instagenic GROUP BY user_id) groupscore ";
+        $sql .= " ON inst.user_id = groupscore.user_id AND inst.score = groupscore.maxscore";
+        $sql .= " WHERE 1";
+    }
+    if (!$isIncludedInactive)                   $sql .= " AND is_enable = 1";
+    if ($dateFrom)                              $sql .= " AND created_at >= '".$dateFrom."'";
+    if ($dateTo)                                $sql .= " AND created_at <= '".$dateTo."'";
+    if ($category && $category != "all")        $sql .= " AND category = '".$category."'";
+    if ($subcategory && $subcategory != "all")  $sql .= " AND sub_category = '".$subcategory."'";
+
+    $sql .= " ORDER BY score DESC LIMIT 10";
+    ob_start();
+    print_r($sql);
+    $out = ob_get_contents();
+    ob_end_clean();
+    file_put_contents("../sql.log", $out, FILE_APPEND);
 //    exit;
 
-    //DB更新
-    $sql = "UPDATE instagenic SET is_enable = :is_enable WHERE id = :id";
     $sth = $dbh->prepare($sql);
-
-    foreach ($arrChecks as $val) {
-        $sth->execute(array(
-                ':is_enable' => 0,
-                ':id' => $val)
-        );
-    }
-} catch (Exception $e) {
-    error_log($e->getMessage());
-}
+    $sth->execute();
 
 /*
  * データ再出力
  */
-try{
-    $sth = $dbh->prepare("SELECT * FROM instagenic WHERE is_enable = 1 LIMIT 10");
-    $sth->execute();
-
     $return_str = "";
     $cnt = 0;
     foreach ($sth as $row) {
