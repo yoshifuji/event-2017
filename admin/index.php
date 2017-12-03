@@ -73,83 +73,78 @@ $sth->execute();
     <script src="js/table_data.js"></script>
 </head>
 <body>
-<h1> Fuyu Fes 2017 </h1>
-
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><a href="#">インスタ映え</a></li>
-            <li><a href="#">ナイスカップル</a></li>
-            <li>
-            <!-- モーダル表示 -->
-            <button id="btn-setting" class="btn btn-primary" data-toggle="modal" data-target="#modal-example">
-                設定画面
-            </button>
-            </li>
-
-        </ul>
-    </div>
-</nav>
+<div id="ttl">
+    <h1> Fuyu Fes 2017 </h1>
+</div>
 
 <!-- 検索条件指定 -->
-<nav class="navbar navbar-light bg-faded rounded navbar-toggleable-md">
-    <div class="collapse navbar-collapse" id="containerSearch">
-        <form id="searchForm" class="form-inline">
-            <div class="search-elem">
-                <span id="chkLineid">
-                    <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                        <input type="checkbox" class="custom-control-input" checked>
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">LineIDを重複しない(ユーザーの最高点の画像のみ表示)</span>
-                    </label>
-                </span>
-                <span id="chkInactive">
-                    <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                        <input type="checkbox" class="custom-control-input">
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">非アクティブな(無効とした)レコードも表示する</span>
-                    </label>
-                </span>
-            </div>
-            <div class="search-elem">
-                <span id="txtDateFrom">
-                    <label for="validationCustom04">投稿日時(開始)</label>
-                    <input type="text" class="form-control" id="txt-date-from" placeholder="yyyy/MM/dd hh:mm:ss">
-                </span>
-                　〜　
-                <span id="txtDateTo">
-                    <label for="validationCustom04">投稿日時(終了)</label>
-                    <input type="text" class="form-control" id="txt-date-to" placeholder="yyyy/MM/dd hh:mm:ss">
-                </span>
-                <caption>　※投稿日時は yyyy/MM/dd の表記でも検索できます</caption>
-            </div>
-            <div class="search-elem">
-                <span id="category">
-                    <label class="mr-sm-2" for="inlineFormCustomSelectPref">カテゴリ</label>
-                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
-                        <option value="1">all</option>
-                        <option value="2">test</option>
-                        <option value="3">test</option>
-                    </select>
-                </span>
-                <span id="subcategory">
-                    <label class="mr-sm-2" for="inlineFormCustomSelectPref">サブカテゴリ</label>
-                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
-                        <option value="1">all</option>
-                        <option value="2">test</option>
-                        <option value="3">test</option>
-                    </select>
-                </span>
-            </div>
-            <div class="search-elem">
-                <button type="button" id="btnSearch" class="btn btn-primary">検索</button>
-            </div>
-        </form>
+<nav class="navbar navbar-default navbar-light bg-faded rounded navbar-toggleable-md">
+    <div class="container-fluid">
+        <h4>検索条件</h4>
+        <div class="collapse navbar-collapse" id="containerSearch">
+            <form id="searchForm" class="form-inline">
+                <div class="search-elem">
+                    <span id="chkLineid">
+                        <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                            <input type="checkbox" class="custom-control-input" checked>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">LineIDを重複しない(ユーザーの最高点の画像のみ表示)</span>
+                        </label>
+                    </span>
+                    <span id="chkInactive">
+                        <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                            <input type="checkbox" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">非アクティブな(無効とした)レコードも表示する</span>
+                        </label>
+                    </span>
+                </div>
+                <div class="search-elem">
+                    <span id="txtDateFrom">
+                        <label for="validationCustom04">投稿日時(開始)</label>
+                        <input type="text" class="form-control" id="txt-date-from" placeholder="yyyy/MM/dd hh:mm:ss">
+                    </span>
+                    　〜　
+                    <span id="txtDateTo">
+                        <label for="validationCustom04">投稿日時(終了)</label>
+                        <input type="text" class="form-control" id="txt-date-to" placeholder="yyyy/MM/dd hh:mm:ss">
+                    </span>
+                    <caption>　※投稿日時は yyyy/MM/dd の表記でも検索できます</caption>
+                </div>
+                <div class="search-elem">
+                    <span id="category">
+                        <label class="mr-sm-2" for="inlineFormCustomSelectPref">カテゴリ</label>
+                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
+                            <option value="1">all</option>
+                            <option value="2">test</option>
+                            <option value="3">test</option>
+                        </select>
+                    </span>
+                    <span id="subcategory">
+                        <label class="mr-sm-2" for="inlineFormCustomSelectPref">サブカテゴリ</label>
+                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
+                            <option value="1">all</option>
+                            <option value="2">test</option>
+                            <option value="3">test</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="search-elem">
+                    <button type="button" id="btnSearch" class="btn btn-primary">
+                        検索
+                    </button>
+                    <!-- モーダル表示 -->
+                    <button id="btn-setting" class="btn btn-default" data-toggle="modal" data-target="#modal-example">
+                        設定画面
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </nav>
 
 <div class="page-header">
-    <h3>集計ランキング(インスタ映え)</h3>
+    <h3>集計ランキング</h3>
 </div>
 
 <!--

@@ -6,19 +6,19 @@
     }
 }
 
-#btn-setting {
-    margin: 8px 0 0 24px;
+#ttl {
+    padding: 0 0 12px 0;
 }
-
+#btn-setting {
+    margin: 0 0 0 12px;
+}
 #search-bar{
     margin: 0 0 0 234px;
     padding: 8px 0 0 0;
 }
-
 .search-elem{
-    padding: 10px 0 0px 0;
+    padding: 10px 0 4px 0;
 }
-
 #chkInactive, #subcategory{
     padding: 0 0 0 20px;
 }
