@@ -114,12 +114,12 @@ $sth->execute();
             <div class="search-elem">
                 <span id="txtDateFrom">
                     <label for="validationCustom04">投稿日時(開始)</label>
-                    <input type="text" class="form-control" id="validationCustom04" placeholder="yyyy/MM/dd hh:mm:ss">
+                    <input type="text" class="form-control" id="txt-date-from" placeholder="yyyy/MM/dd hh:mm:ss">
                 </span>
                 　〜　
                 <span id="txtDateTo">
                     <label for="validationCustom04">投稿日時(終了)</label>
-                    <input type="text" class="form-control" id="validationCustom04" placeholder="yyyy/MM/dd hh:mm:ss">
+                    <input type="text" class="form-control" id="txt-date-to" placeholder="yyyy/MM/dd hh:mm:ss">
                 </span>
                 <caption>　※投稿日時は yyyy/MM/dd の表記でも検索できます</caption>
             </div>
@@ -229,7 +229,16 @@ $sth->execute();
                 <h4 class="modal-title" id="modal-label">ダイアログ</h4>
             </div>
             <div class="modal-body">
-                ここに内容を書く
+                <form>
+                    <div class="form-group">
+                        <label for="modal-date-from" class="col-form-label">投稿日時(開始):</label>
+                        <input type="text" class="form-control" id="txt-modal-date-from" placeholder="yyyy/MM/dd hh:mm:ss">
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-date-to" class="col-form-label">投稿日時(終了):</label>
+                        <input type="text" class="form-control" id="txt-modal-date-to" placeholder="yyyy/MM/dd hh:mm:ss">
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
