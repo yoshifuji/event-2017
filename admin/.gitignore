@@ -3,4 +3,5 @@ img/*
 *ini
 *log
 *txt
-tags.lock
+*.lock
+vendor/
