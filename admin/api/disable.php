@@ -29,14 +29,6 @@ try{
     //パラメータ取得
     $arrChecks = json_decode($_POST['checks']);
 
-//    ob_start();
-//    print_r($hoge);
-//    echo is_null($hoge) ? 'null' : 1;
-//    $out = ob_get_contents();
-//    ob_end_clean();
-//    file_put_contents("../hoge.txt", $out, FILE_APPEND);
-//    exit;
-
     //DB更新
     $sql = "UPDATE instagenic SET is_enable = :is_enable WHERE id = :id";
     $sth = $dbh->prepare($sql);
@@ -47,38 +39,6 @@ try{
                 ':id' => $val)
         );
     }
-} catch (Exception $e) {
-    error_log($e->getMessage());
-}
-
-/*
- * データ再出力
- */
-try{
-    $sth = $dbh->prepare("SELECT * FROM instagenic WHERE is_enable = 1 LIMIT 10");
-    $sth->execute();
-
-    $return_str = "";
-    $cnt = 0;
-    foreach ($sth as $row) {
-        $return_str .= ($cnt % 2 == 0) ? '<tr role="row" class="even">' : '<tr role="row" class="odd">';
-        $return_str .= '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
-        $return_str .= '<td>'.htmlspecialchars($row['id']).'</td>';
-        $return_str .= '<td><img class="img-thumbnail" src="https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/'.($cnt+1).'.jpg" width="100" height="100"></td>';
-        $return_str .= '<td>'.htmlspecialchars($row['image_name']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['user_id']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['user_name']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['score']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['category']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['sub_category']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['is_enable']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['created_at']).'</td>';
-        $return_str .= '<td>'.htmlspecialchars($row['updated_at']).'</td>';
-        $return_str .= '</tr>';
-        $cnt++;
-    }
-    echo $return_str;
-
 } catch (Exception $e) {
     error_log($e->getMessage());
 }

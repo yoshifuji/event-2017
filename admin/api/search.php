@@ -29,7 +29,6 @@ try{
 
     //sql生成
     $sql = "SELECT * FROM instagenic WHERE 1";
-
     if ($isIncludedLineidDuplicated){
         $sql = "SELECT inst.* FROM instagenic inst INNER JOIN";
         $sql .= " (SELECT user_id, MAX(score) AS maxscore FROM instagenic GROUP BY user_id) groupscore ";
@@ -41,21 +40,21 @@ try{
     if ($dateTo)                                $sql .= " AND created_at <= '".$dateTo."'";
     if ($category && $category != "all")        $sql .= " AND category = '".$category."'";
     if ($subcategory && $subcategory != "all")  $sql .= " AND sub_category = '".$subcategory."'";
-
     $sql .= " ORDER BY score DESC LIMIT 10";
+
+    //sql logging
     ob_start();
     print_r($sql);
     $out = ob_get_contents();
     ob_end_clean();
     file_put_contents("../sql.log", $out, FILE_APPEND);
-//    exit;
 
     $sth = $dbh->prepare($sql);
     $sth->execute();
 
-/*
- * データ再出力
- */
+    /*
+     * データ再出力
+     */
     $return_str = "";
     $cnt = 0;
     foreach ($sth as $row) {
