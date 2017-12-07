@@ -187,7 +187,7 @@ $sth->execute();
                     echo '<tr>';
                     echo '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
-                    echo '<td><img class="img-thumbnail" src="https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/'.($cnt+1).'.jpg" width="100" height="100"></td>';
+                    echo '<td><img class="img-thumbnail" src="https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/'.$row['id'].'-thumbnail.jpeg" width="100" height="100"></td>';
                     echo '<td>'.htmlspecialchars($row['image_name']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_id']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_name']).'</td>';

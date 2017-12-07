@@ -22,3 +22,7 @@
 #chkInactive, #subcategory{
     padding: 0 0 0 20px;
 }
+
+.dataTables_info{
+    visibility: hidden;
+}
