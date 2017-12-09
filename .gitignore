@@ -3,3 +3,4 @@ tags*
 *.ini
 log*
 *.lock
+batch/
