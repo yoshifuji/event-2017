@@ -42,13 +42,6 @@ try{
     if ($subcategory && $subcategory != "all")  $sql .= " AND sub_category = '".$subcategory."'";
     $sql .= " ORDER BY score DESC LIMIT 10";
 
-    //sql logging
-    ob_start();
-    print_r($sql);
-    $out = ob_get_contents();
-    ob_end_clean();
-    file_put_contents("../sql.log", $out, FILE_APPEND);
-
     $sth = $dbh->prepare($sql);
     $sth->execute();
 

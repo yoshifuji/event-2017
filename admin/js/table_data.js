@@ -6,10 +6,6 @@ $(function(){
         loadData();
     });
 
-    $("#btnReset").click(function(){
-        resetData();
-    });
-
     $("#btnDisable").click(function(){
         var arrChecks = new Array();
         $("input:checked").each(function() {

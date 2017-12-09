@@ -71,6 +71,7 @@ $sth->execute();
     <!-- modal window -->
     <script src="js/modal_setting.js"></script>
     <script src="js/table_data.js"></script>
+<!--    <script src="js/retrieve_img.js"></script>-->
 </head>
 <body>
 <div id="ttl">
@@ -116,16 +117,19 @@ $sth->execute();
                         <label class="mr-sm-2" for="inlineFormCustomSelectPref">カテゴリ</label>
                         <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
                             <option value="1">all</option>
-                            <option value="2">test</option>
-                            <option value="3">test</option>
+                            <option value="2">insta</option>
+                            <option value="3">face</option>
                         </select>
                     </span>
                     <span id="subcategory">
                         <label class="mr-sm-2" for="inlineFormCustomSelectPref">サブカテゴリ</label>
                         <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
                             <option value="1">all</option>
-                            <option value="2">test</option>
-                            <option value="3">test</option>
+                            <option value="2">food</option>
+                            <option value="3">human</option>
+                            <option value="3">facility</option>
+                            <option value="3">smgr</option>
+                            <option value="3">md</option>
                         </select>
                     </span>
                 </div>
@@ -212,6 +216,25 @@ $sth->execute();
         <button type="button" class="btn btn-danger" id="btnDisable">Disable</button>
     </p>
 </div>
+
+<!-- replace test
+<div>
+    <span class="name00"></span>
+    <span class="score00"></span>
+    <section class="img00" data-background="https://goo.gl/k4tMpj">
+    </section>
+
+    <span class="name01"></span>
+    <span class="score01"></span>
+    <section class="img01" data-background="https://goo.gl/k4tMpj">
+    </section>
+
+    <span class="name02"></span>
+    <span class="score02"></span>
+    <section class="img02" data-background="https://goo.gl/k4tMpj">
+    </section>
+</div>
+-->
 
 <!-- モーダル画面 -->
 <div class="modal" id="modal-example" tabindex="-1">

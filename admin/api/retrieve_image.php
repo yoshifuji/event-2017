@@ -23,14 +23,17 @@ try {
 }
 
 try{
-    $arrayCategory = array(
-        'insta'=>'food', 'insta'=>'human', 'insta'=>'facility',
-        'face'=>'smgr', 'face'=>'md'
-    );
+    //$arrayCategory = array('insta'=>array('food','human','facility'), 'face'=>array('smgr','md'));
+    $cat = $_POST['category'];
+    $sub = $_POST['subcategory'];
+    $returnData = getImageArray($dbh, $cat, $sub);
 
-    foreach ($arrayCategory as $key => $value){
-        $returnData += appendImageArray($dbh, $key, $value, $returnData);
-    }
+//    //logging
+//    ob_start();
+//    print_r($returnData);
+//    $out = ob_get_contents();
+//    ob_end_clean();
+//    file_put_contents("../php.log", $out, FILE_APPEND);
 
     //json出力
     header('Content-type: application/json');
@@ -40,24 +43,26 @@ try{
     error_log($e->getMessage());
 }
 
-function appendImageArray($dbh, $category, $subCategory){
+function getImageArray($dbh, $category, $subCategory){
     try{
         $tmpArray = array();
-        $sth = $dbh->prepare("SELECT MAX(i1.score) as score, i1.category, i1.sub_category, i1.user_id, i1.user_name,i1.image_name FROM (SELECT * FROM instagenic where is_enable = true and category=:category and sub_category=:sub_category) as i1 GROUP BY i1.user_id, i1.category, i1.sub_category ORDER BY MAX(i1.score) DESC LIMIT 3");
+        $sql = "SELECT MAX(i1.score) as score, i1.category, i1.sub_category, i1.user_id, i1.user_name,i1.image_name FROM (SELECT * FROM instagenic where is_enable = true and category=:category and sub_category=:sub_category) as i1 GROUP BY i1.user_id, i1.category, i1.sub_category ORDER BY MAX(i1.score) DESC LIMIT 3";
+        $sth = $dbh->prepare($sql);
         $sth->bindParam(':category', $category, PDO::PARAM_STR);
         $sth->bindParam(':sub_category', $subCategory, PDO::PARAM_STR);
         $sth->execute();
 
         while($row = $sth->fetch(PDO::FETCH_ASSOC)){
-            $tmpArray += array(
+            array_push($tmpArray, array(
                 'score'=>$row['score'],
                 'category'=>$row['category'],
                 'sub_category'=>$row['sub_category'],
                 'user_id'=>$row['user_id'],
                 'user_name'=>$row['user_name'],
                 'image_name'=>$row['image_name']
-            );
+            ));
         }
+
     } catch (Exception $e) {
         error_log($e->getMessage());
     }
