@@ -49,7 +49,7 @@ try{
      * データ再出力
      */
     $return_str = "";
-    $imgPrefix = preg_match('/prd/',gethostname())
+    $imgPrefix = preg_match('/prd/', $_SERVER['SERVER_NAME'])
         ? "https://s3-ap-northeast-1.amazonaws.com/prd-fuyufes2017/img/std/" : "https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/";
 
     $cnt = 0;
