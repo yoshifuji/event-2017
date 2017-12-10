@@ -28,9 +28,6 @@ try{
     $sub = $_POST['subcategory'];
     $returnData = getImageArray($dbh, $cat, $sub);
 
-    echo $cat;
-    echo $sub;
-
 //    //logging
 //    ob_start();
 //    print_r($returnData);
