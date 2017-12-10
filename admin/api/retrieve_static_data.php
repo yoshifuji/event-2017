@@ -24,8 +24,8 @@ try {
 
 try{
     //$arrayCategory = array('insta'=>array('food','human','facility'), 'face'=>array('smgr','md'));
-    $cat = $_POST['category'];
-    $sub = $_POST['subcategory'];
+    $cat = $_GET['category'];
+    $sub = $_GET['subcategory'];
     $returnData = getImageArray($dbh, $cat, $sub);
 
 //    //logging
