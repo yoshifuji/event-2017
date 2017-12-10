@@ -200,6 +200,8 @@ try {
           'SourceFile' => $srcFile,
           'ContentType'=> mime_content_type($srcFile)
       ]);
+      unlink($imagePath);
+
     } elseif ($event instanceof \LINE\LINEBot\Event\MessageEvent\StickerMessage) {
                       $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(1, 1));
     } else {
