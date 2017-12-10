@@ -12,7 +12,7 @@ $USERNAME   = $ini_array['USERNAME'];
 $PWD        = $ini_array['PWD'];
 
 try {
-    $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+    $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
         array(PDO::ATTR_EMULATE_PREPARES => false));
 } catch (PDOException $e) {
     exit('データベース接続失敗。'.$e->getMessage());
@@ -186,7 +186,7 @@ $sth->execute();
             <tbody>
                 <?php
                 //初回呼び出し分
-                $imgPrefix = preg_match('/prd-/',gethostname())
+                $imgPrefix = preg_match('/prd/',gethostname())
                     ? "https://s3-ap-northeast-1.amazonaws.com/prd-fuyufes2017/img/std/" : "https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/";
 
                 $cnt = 0;
