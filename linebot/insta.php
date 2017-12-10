@@ -276,7 +276,7 @@ function saveToDB($userId, $displayName, $className, $classScore) {
   $PWD        = $ini_array['PWD'];
 
   try {
-      $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+      $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
           array(PDO::ATTR_EMULATE_PREPARES => false));
   } catch (PDOException $e) {
       exit('データベース接続失敗。'.$e->getMessage());
@@ -317,7 +317,7 @@ function searchScore($userId){
   $PWD        = $ini_array['PWD'];
 
   try {
-      $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+      $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
           array(PDO::ATTR_EMULATE_PREPARES => false));
   } catch (PDOException $e) {
       exit('データベース接続失敗。'.$e->getMessage());
@@ -338,7 +338,7 @@ function searchmyRank($userId){
   $PWD        = $ini_array['PWD'];
 
   try {
-      $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+      $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
           array(PDO::ATTR_EMULATE_PREPARES => false));
   } catch (PDOException $e) {
       exit('データベース接続失敗。'.$e->getMessage());
@@ -361,7 +361,7 @@ function searchHeadCount(){
   $PWD        = $ini_array['PWD'];
 
   try {
-      $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+      $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
           array(PDO::ATTR_EMULATE_PREPARES => false));
   } catch (PDOException $e) {
       exit('データベース接続失敗。'.$e->getMessage());
