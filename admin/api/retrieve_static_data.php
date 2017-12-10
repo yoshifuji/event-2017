@@ -23,6 +23,10 @@ try {
 }
 
 try{
+    $callback = "jsonp_data";
+    if(isset($_GET['callback'])){
+        $callback=$_GET['callback'];
+    }
     //$arrayCategory = array('insta'=>array('food','human','facility'), 'face'=>array('smgr','md'));
     $cat = $_GET['category'];
     $sub = $_GET['subcategory'];
@@ -36,8 +40,12 @@ try{
 //    file_put_contents("../php.log", $out, FILE_APPEND);
 
     //json出力
-    header('Content-type: application/json');
-    echo 'jsonp_data('.json_encode($returnData).')';
+    //https://qiita.com/stkdev/items/f3e6cae58ab73faee502
+    $json = json_encode($returnData, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+header("Content-type: application/x-javascript");
+print <<<END
+$callback($json);
+END;
 
 } catch (Exception $e) {
     error_log($e->getMessage());
