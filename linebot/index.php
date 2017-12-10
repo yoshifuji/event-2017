@@ -13,24 +13,6 @@ putenv("CHANNEL_SECRET=$CS");
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-/////////////////////////////////////////////////////////////
-// $channelId_photogenic='';
-// $channelId_promotion='';
-// $json_string1 = file_get_contents('php://input');
-// $json_object1 = json_decode($json_string1);
-
-// for(var i = 0 ; i < $json_object1.length ; i++){
-//     file_put_contents("log.txt", $json_object1[i],FILE_APPEND);
-// }
-
-
-// $message_token1 = $json_object1->{"events"}[0]->{"replyToken"};
-// file_put_contents("log.txt", "\nmessage token is" . $message_token1,FILE_APPEND);
-
-
-
-/////////////////////////////////////////////////////////////
-
 $signature = $_SERVER["HTTP_" . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
 try {
   $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
