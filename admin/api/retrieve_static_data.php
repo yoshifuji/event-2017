@@ -23,7 +23,7 @@ try {
 }
 
 try{
-    $callback = "jsonp_data";
+    $callback = "callbackFunc";
     if(isset($_GET['callback'])){
         $callback=$_GET['callback'];
     }
