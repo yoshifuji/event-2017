@@ -37,7 +37,7 @@ try{
 
     //json出力
     header('Content-type: application/json');
-    echo json_encode($returnData);
+    echo 'jsonp_data('.json_encode($returnData).')';
 
 } catch (Exception $e) {
     error_log($e->getMessage());
