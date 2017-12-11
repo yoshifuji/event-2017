@@ -136,8 +136,11 @@ try {
       $classScore = $class["score"];
 
       //MD顔の補正
-      if ( strcmp($className, 'md') ) {
-        $classScore = $classScore*1.2;
+      if ( $className === 'md' ) {
+        $classScore = $classScore*1.1;
+        if ( $classScore > 100.0 ) {
+          $classScore = 100.0;
+        }
       }
 
 
@@ -259,6 +262,7 @@ function saveToDB($userId, $displayName, $className, $classScore) {
   $created_at = $created_at->format('Y-m-d H:i:s');
   $updated_at = new DateTime();
   $updated_at = $updated_at->format('Y-m-d H:i:s');
+  $category = 'face';
 
 
   $sth = $dbh->prepare("INSERT INTO instagenic (user_id, user_name, score, category, sub_category, is_enable, created_at, updated_at) VALUES (:user_id, :user_name, :score, :category, :sub_category, :is_enable, :created_at, :updated_at)");
@@ -266,7 +270,7 @@ function saveToDB($userId, $displayName, $className, $classScore) {
   $sth->bindParam(':user_id', $userId, PDO::PARAM_STR);
   $sth->bindParam(':user_name', $displayName, PDO::PARAM_STR);
   $sth->bindParam(':score', $classScore, PDO::PARAM_STR);
-  $sth->bindParam(':category', $className, PDO::PARAM_STR);
+  $sth->bindParam(':category', $category, PDO::PARAM_STR);
   $sth->bindParam(':sub_category', $className, PDO::PARAM_STR);
   $sth->bindParam(':is_enable', $is_enable, PDO::PARAM_INT);
   $sth->bindParam(':created_at', $created_at, PDO::PARAM_STR);

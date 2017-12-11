@@ -15,6 +15,7 @@ $codeTeeth = '10000B';
 $codeKira = '10002D';
 $codeGood = '100033';
 $codeCake = '100056';
+$codeGomen = '100017';
 // 16進エンコードされたバイナリ文字列をデコード
 $binHappy = hex2bin(str_repeat('0', 8 - strlen($codeHappy)) . $codeHappy);
 $binSoHappy = hex2bin(str_repeat('0', 8 - strlen($codeSoHappy)) . $codeSoHappy);
@@ -24,6 +25,7 @@ $binTeeth = hex2bin(str_repeat('0', 8 - strlen($codeTeeth)) . $codeTeeth);
 $binKira = hex2bin(str_repeat('0', 8 - strlen($codeKira)) . $codeKira);
 $binGood = hex2bin(str_repeat('0', 8 - strlen($codeGood)) . $codeGood);
 $binCake = hex2bin(str_repeat('0', 8 - strlen($codeCake)) . $codeCake);
+$binGomen = hex2bin(str_repeat('0', 8 - strlen($codeGomen)) . $codeGomen);
 // UTF8へエンコード
 $iconHappy =  mb_convert_encoding($binHappy, 'UTF-8', 'UTF-32BE');
 $iconSoHappy =  mb_convert_encoding($binSoHappy, 'UTF-8', 'UTF-32BE');
@@ -33,9 +35,8 @@ $iconTeeth =  mb_convert_encoding($binTeeth, 'UTF-8', 'UTF-32BE');
 $iconKira =  mb_convert_encoding($binKira, 'UTF-8', 'UTF-32BE');
 $iconGood =  mb_convert_encoding($binGood, 'UTF-8', 'UTF-32BE');
 $iconCake =  mb_convert_encoding($binCake, 'UTF-8', 'UTF-32BE');
+$iconGomen =  mb_convert_encoding($binGomen, 'UTF-8', 'UTF-32BE');
 
-// //配列などに格納して使う
-// $text[] =  array("type" => "text","text" => $emoticon);
 
 
 
@@ -94,7 +95,7 @@ try {
                       if ( $latestScore >= 0.85 ) {
                         $message = $message . $iconHappy . "センス抜群" . $iconKira . $iconKira;
                       } else if ( ($latestScore < 0.85) && ($latestScore >= 0.65) ) {
-                        $message = $message . $iconSoHappy . "いい感じ" . $iconSoHappy;
+                        $message = $message . $iconSoHappy . "いい感じ" . $iconGood;
                       } else if ( ($latestScore < 0.65) && ($latestScore >= 0.50) ) {
                         $message = $message . "。なんとも言えないね" . $iconShock;
                       } else if ( ($latestScore < 0.50) && ($latestScore >= 0.00) ) {
@@ -169,14 +170,16 @@ try {
       $classScore = $class["score"];
       $seqFileId = saveToDB($userId, $userName, $className, $classScore);
 
-		  $message = "すてきな写真をありがとう！IBM Watsonの判定結果によるとあなたの写真はインスタ映え度" . $classScore*100 . "点！";
-      if ( $classScore >= 0.8 ) {
-          $message = $message . "あと一息！";
-      } else if ( $classScore >= 0.65 ) {
-          $message = $message . "センスいい！";
+		  $message = "すてきな写真をありがとう！IBM Watsonの判定によるとあなたの写真はインスタ映え度" . $classScore*100 . "点だよ";
+      if ( $classScore >= 0.85 ) {
+          $message = $message . $iconHappy . "センス抜群" . $iconKira . $iconKira;
+      } else if ( ($classScore < 0.85) && ($classScore >= 0.65) ) {
+          $message = $message . $iconSoHappy . "いい感じ" . $iconGood;
+      } else if ( ($classScore < 0.65) && ($classScore >= 0.50) ) {
+          $message = $message . "。なんとも言えないね" . $iconShock;
       } else {
           //家でぬるぬるしてな！
-          $message = $message . "もっとがんばれ！";
+          $message = $message . "。もっとがんばれ！" . $iconSad;
       }
   		$bot->replyText($event->getReplyToken(), $message);
       $ini = './credentials.ini';
@@ -216,9 +219,7 @@ try {
 
 
 function saveImageToTmp($rawBody) {
-  file_put_contents("log.txt", "aaa",FILE_APPEND);
   $im = imagecreatefromstring($rawBody);
-  file_put_contents("log.txt", "aaa",FILE_APPEND);
   $resultString = "";
   //デバッグ
   if ($im !== false) {
@@ -287,6 +288,7 @@ function saveToDB($userId, $displayName, $className, $classScore) {
   $created_at = $created_at->format('Y-m-d H:i:s');
   $updated_at = new DateTime();
   $updated_at = $updated_at->format('Y-m-d H:i:s');
+  $category = 'insta';
 
 
   $sth = $dbh->prepare("INSERT INTO instagenic (user_id, user_name, score, category, sub_category, is_enable, created_at, updated_at) VALUES (:user_id, :user_name, :score, :category, :sub_category, :is_enable, :created_at, :updated_at)");
@@ -294,7 +296,7 @@ function saveToDB($userId, $displayName, $className, $classScore) {
   $sth->bindParam(':user_id', $userId, PDO::PARAM_STR);
   $sth->bindParam(':user_name', $displayName, PDO::PARAM_STR);
   $sth->bindParam(':score', $classScore, PDO::PARAM_STR);
-  $sth->bindParam(':category', $className, PDO::PARAM_STR);
+  $sth->bindParam(':category', $category, PDO::PARAM_STR);
   $sth->bindParam(':sub_category', $className, PDO::PARAM_STR);
   $sth->bindParam(':is_enable', $is_enable, PDO::PARAM_INT);
   $sth->bindParam(':created_at', $created_at, PDO::PARAM_STR);
@@ -317,14 +319,16 @@ function searchScore($userId){
   $PWD        = $ini_array['PWD'];
 
   try {
-      $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+      $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
           array(PDO::ATTR_EMULATE_PREPARES => false));
   } catch (PDOException $e) {
       exit('データベース接続失敗。'.$e->getMessage());
   }
+  $category = 'insta';
 
-  $sth = $dbh->prepare("SELECT MAX(score) FROM instagenic where user_id = :user_id");
+  $sth = $dbh->prepare("SELECT MAX(score) FROM instagenic where user_id = :user_id and category = :category");
   $sth->bindParam(':user_id', $userId, PDO::PARAM_STR);
+  $sth->bindParam(':category', $category, PDO::PARAM_STR);
   $sth->execute();
   $select_data = $sth->fetch();
   return $select_data[0];
@@ -338,16 +342,18 @@ function searchmyRank($userId){
   $PWD        = $ini_array['PWD'];
 
   try {
-      $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+      $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
           array(PDO::ATTR_EMULATE_PREPARES => false));
   } catch (PDOException $e) {
       exit('データベース接続失敗。'.$e->getMessage());
   }
+  $category = 'insta';
 
   $sth_set = $dbh->prepare("set @c:=0;");
   $sth_set->execute();
-  $sth = $dbh->prepare("SELECT ranking.* from (select @c:=@c+1, scorelist.* from (SELECT MAX(score), user_id FROM instagenic GROUP BY user_id ORDER BY MAX(score) DESC) scorelist) ranking where ranking.user_id = :user_id");
+  $sth = $dbh->prepare("SELECT ranking.* from (select @c:=@c+1, scorelist.* from (SELECT MAX(score), user_id FROM instagenic WHERE category = :category GROUP BY user_id ORDER BY MAX(score) DESC) scorelist) ranking where ranking.user_id = :user_id");
   $sth->bindParam(':user_id', $userId, PDO::PARAM_STR);
+  $sth->bindParam(':category', $category, PDO::PARAM_STR);
   $sth->execute();
   $select_data = $sth->fetch();
   return $select_data[0];
@@ -361,13 +367,15 @@ function searchHeadCount(){
   $PWD        = $ini_array['PWD'];
 
   try {
-      $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+      $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
           array(PDO::ATTR_EMULATE_PREPARES => false));
   } catch (PDOException $e) {
       exit('データベース接続失敗。'.$e->getMessage());
   }
+  $category = 'insta';
 
-  $sth = $dbh->prepare("SELECT count(distinct(user_id)) from instagenic");
+  $sth = $dbh->prepare("SELECT count(distinct(user_id)) from instagenic where category = :category");
+  $sth->bindParam(':category', $category, PDO::PARAM_STR);
   $sth->execute();
   $select_data = $sth->fetch();
   // //デバッグ
