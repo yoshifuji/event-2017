@@ -23,10 +23,13 @@ try{
     if(isset($_GET['callback'])){
         $callback=$_GET['callback'];
     }
-    //$arrayCategory = array('insta'=>array('food','human','facility'), 'face'=>array('smgr','md'));
-    $cat = $_GET['category'];
-    $sub = $_GET['subcategory'];
-    $returnData = getImageArray($dbh, $cat, $sub);
+    $arrayCats = array('insta'=>array('food','human','facility'), 'face'=>array('smgr','md'));
+    foreach ($arrayCats as $cat => $arraySubs){
+        foreach ($arraySubs as $sub){
+            array_push($returnData, appendArray($dbh, $cat, $sub));
+        }
+    }
+
 //    //logging
 //    ob_start();
 //    print_r($returnData);
@@ -43,13 +46,13 @@ END;
 } catch (Exception $e) {
     error_log($e->getMessage());
 }
-function getImageArray($dbh, $category, $subCategory){
+function appendArray($dbh, $cat, $sub){
     try{
         $tmpArray = array();
         $sql = "SELECT MAX(i1.score) as score, i1.category, i1.sub_category, i1.user_id, i1.user_name,i1.image_name FROM (SELECT * FROM instagenic where is_enable = true and category=:category and sub_category=:sub_category) as i1 GROUP BY i1.user_id, i1.category, i1.sub_category ORDER BY MAX(i1.score) DESC LIMIT 3";
         $sth = $dbh->prepare($sql);
-        $sth->bindParam(':category', $category, PDO::PARAM_STR);
-        $sth->bindParam(':sub_category', $subCategory, PDO::PARAM_STR);
+        $sth->bindParam(':category', $cat, PDO::PARAM_STR);
+        $sth->bindParam(':sub_category', $sub, PDO::PARAM_STR);
         $sth->execute();
         while($row = $sth->fetch(PDO::FETCH_ASSOC)){
             array_push($tmpArray, array(
