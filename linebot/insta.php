@@ -97,7 +97,7 @@ try {
                       } else if ( ($latestScore < 0.85) && ($latestScore >= 0.65) ) {
                         $message = $message . $iconSoHappy . "いい感じ" . $iconGood;
                       } else if ( ($latestScore < 0.65) && ($latestScore >= 0.50) ) {
-                        $message = $message . "。なんとも言えないね" . $iconShock;
+                        $message = $message . "。あとちょっとって感じだね" . $iconShock . "もっと色をたくさん使ったり、組み合わせを色々考えてみよう" . $iconHappy;
                       } else if ( ($latestScore < 0.50) && ($latestScore >= 0.00) ) {
                         $message = $message . "。もっと頑張ろう" . $iconSad;
                       } else {
@@ -165,18 +165,36 @@ try {
       error_log($json_data);
          
       $userName = $profile['displayName']; 
-      $class = $vr_result["images"][0]["classifiers"][0]["classes"][0];
-      $className = $class["class"];
-      $classScore = $class["score"];
+      $class = $vr_result["images"][0]["classifiers"][0];
+      // $className = $class["class"];
+      // $classScore = $class["score"];
+      $highestScore = 0.0;
+      $className = "";
+      $classScore = 0.0;
+      for($i=2;$i>=0;$i--){
+        if ($class["classes"][$i]["score"] > $highestScore ) {
+          $highestScore = $class["classes"][$i]["score"];
+          $className = $class["classes"][$i]["class"];
+          $classScore = $class["classes"][$i]["score"];
+  // //デバッグ
+  file_put_contents("log.txt", $className,FILE_APPEND);
+  file_put_contents("log.txt", $classScore,FILE_APPEND);
+        }
+      }
+      // if ($classScore = 0 ) {
+      //   $classScore = rand(1, 300) / 10;
+      // }
+  // //デバッグ
+  // file_put_contents("log.txt", $userName . $class . $className . $classScore,FILE_APPEND);
       $seqFileId = saveToDB($userId, $userName, $className, $classScore);
 
-		  $message = "すてきな写真をありがとう！IBM Watsonの判定によるとあなたの写真はインスタ映え度" . $classScore*100 . "点だよ";
+		  $message = "すてきな写真をありがとう！判定の結果あなたの写真はインスタ映え度" . $classScore*100 . "点だよ";
       if ( $classScore >= 0.85 ) {
           $message = $message . $iconHappy . "センス抜群" . $iconKira . $iconKira;
       } else if ( ($classScore < 0.85) && ($classScore >= 0.65) ) {
           $message = $message . $iconSoHappy . "いい感じ" . $iconGood;
       } else if ( ($classScore < 0.65) && ($classScore >= 0.50) ) {
-          $message = $message . "。なんとも言えないね" . $iconShock;
+          $message = $message . "。あとちょっとって感じだね" . $iconShock . "もっと色をたくさん使ったり、組み合わせを色々考えてみよう" . $iconHappy;
       } else {
           //家でぬるぬるしてな！
           $message = $message . "。もっとがんばれ！" . $iconSad;
@@ -250,7 +268,7 @@ function VR_Post($jpg){
  try {
     #変数宣言
     $url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify'
-          .'?api_key=2a2065bb2f970f9065cc3e1c34020276132f7526&version=2017-12-09';
+          .'?api_key=2a2065bb2f970f9065cc3e1c34020276132f7526&version=2017-12-09&threshold=0.0';
     $curl = curl_init();
     $data = array("images_file" => new CURLFile($jpg,mime_content_type($jpg),basename($jpg)),
                     "classifier_ids" => $classifyId);

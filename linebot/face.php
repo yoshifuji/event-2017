@@ -131,9 +131,17 @@ try {
       error_log($json_data);
          
       $userName = $profile['displayName']; 
-      $class = $vr_result["images"][0]["classifiers"][0]["classes"][0];
-      $className = $class["class"];
-      $classScore = $class["score"];
+      $class = $vr_result["images"][0]["classifiers"][0];
+      $highestScore = 0.0;
+      $className = "";
+      $classScore = 0.0;
+      for($i=1;$i>=0;$i--){
+        if ($class["classes"][$i]["score"] > $highestScore ) {
+          $highestScore = $class["classes"][$i]["score"];
+          $className = $class["classes"][$i]["class"];
+          $classScore = $class["classes"][$i]["score"];
+        }
+      }
 
       //MD顔の補正
       if ( $className === 'md' ) {
@@ -146,14 +154,16 @@ try {
 
       $seqFileId = saveToDB($userId, $userName, $className, $classScore);
 
-		  $message = "すてきな写真をありがとう！IBM Watsonの判定によるとあなたの顔は出世顔判定結果" . $classScore*100 . "点！";
+		  $message = "すてきな写真をありがとう！あなたの顔は出世顔判定結果" . $classScore*100 . "点だよ！";
       if ( $classScore >= 0.8 ) {
           $message = $message . "かなり大物になる予感・・・？" . $iconShock . "";
-      } else if ( ($classScore < 0.8) && (classScore >= 0.6) ) {
+      } else if ( ($classScore < 0.8) && ($classScore >= 0.6) ) {
           $message = $message . "まずまずの点数だね！" . $iconShock . "";
+      } else if ( ($classScore < 0.6) && ($classScore >= 0.3) ) {
+          $message = $message . "ドンマイ" . $iconShock . "でも人間顔だけやないで！気にすんな" . $iconTeeth;
       } else {
           //家でぬるぬるしてな！
-          $message = $message . "あちゃー、なんかゴメンナサイ。。" . $iconGomen;
+          $message = $message . "ありゃ、なんかゴメンナサイ。。" . $iconGomen;
       }
   		$bot->replyText($event->getReplyToken(), $message);
       $ini = './credentials.ini';
