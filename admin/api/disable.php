@@ -16,7 +16,7 @@ ini_set('log_errors', 'On');
 ini_set('error_log', '../error.log');
 
 try {
-    $dbh = new PDO('mysql:host='.$HOST.';dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
+    $dbh = new PDO('mysql:host='.$HOST.';port=3306;dbname='.$DBNAME.';charset=utf8', $USERNAME, $PWD,
         array(PDO::ATTR_EMULATE_PREPARES => false));
 } catch (PDOException $e) {
     exit('データベース接続失敗。'.$e->getMessage());
