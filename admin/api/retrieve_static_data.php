@@ -49,7 +49,7 @@ END;
 function appendArray($dbh, $cat, $sub){
     try{
         $tmpArray = array();
-        $sql = "SELECT MAX(i1.score) as score, i1.category, i1.sub_category, i1.user_id, i1.user_name,i1.image_name FROM (SELECT * FROM instagenic where is_enable = true and category=:category and sub_category=:sub_category) as i1 GROUP BY i1.user_id, i1.category, i1.sub_category ORDER BY MAX(i1.score) DESC LIMIT 3";
+        $sql = "SELECT MAX(i1.score) as score, i1.category, i1.sub_category, i1.user_id, i1.user_name,i1.image_name FROM (SELECT * FROM instagenic where is_enable = true and category=:category and sub_category=:sub_category) as i1 GROUP BY i1.user_id ORDER BY MAX(i1.score) DESC LIMIT 3";
         $sth = $dbh->prepare($sql);
         $sth->bindParam(':category', $cat, PDO::PARAM_STR);
         $sth->bindParam(':sub_category', $sub, PDO::PARAM_STR);
