@@ -59,12 +59,12 @@ callbackFunc = function(jsonData){
                 $('.name_'  + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["user_name"]);
                 $('.score_' + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["score"]);
                 //$('.img_'   + cat + '_' + sub + '_'+ j).attr("data-background", imgPrefix + jsonData[i][j]["image_name"]);
-                $('.img_'   + cat + '_' + sub + '_'+ j).css({ 'background-image': 'url(' + imgPrefix + jsonData[i][j]["image_name"] + ')' });
+                $('.img_'   + cat + '_' + sub + '_'+ j).css({ 'background-image': 'url(' + imgPrefix + jsonData[i][j]["image_name"] + '.jpg)' });
             } else {
                 $('.name_'  + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["user_name"]);
                 $('.score_' + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["score"]);
                 //$('.img_'   + cat + '_' + sub + '_'+ j).attr("data-src", imgPrefix + jsonData[i][j]["image_name"]);
-                $('.img_'   + cat + '_' + sub + '_'+ j).attr("src", imgPrefix + jsonData[i][j]["image_name"]);
+                $('.img_'   + cat + '_' + sub + '_'+ j).attr("src", imgPrefix + jsonData[i][j]["image_name"] + '.jpg');
             }
         }
     }
