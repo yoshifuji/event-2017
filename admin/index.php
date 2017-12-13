@@ -172,7 +172,6 @@ $sth->execute();
                 <th>チェック</th>
                 <th>#</th>
                 <th>画像</th>
-                <th>画像名</th>
                 <th>ユーザーID</th>
                 <th>ユーザー名</th>
                 <th>スコア</th>
@@ -194,8 +193,9 @@ $sth->execute();
                     echo '<tr>';
                     echo '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
-                    echo '<td><img class="img-thumbnail" src='.$imgPrefix.$row['id'].'-thumbnail.jpeg" width="100" height="100"></td>';
-                    echo '<td>'.htmlspecialchars($row['image_name']).'</td>';
+		    echo '<td><a href="'.$imgPrefix.$row['id'].'.jpg" target="_blank">';
+		    echo '<img class="img-thumbnail" src='.$imgPrefix.$row['id'].'-thumbnail.jpeg">';
+		    echo '</a></td>';
                     echo '<td>'.htmlspecialchars($row['user_id']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_name']).'</td>';
                     echo '<td>'.htmlspecialchars($row['score']).'</td>';
