@@ -3,23 +3,25 @@
  */
 $(function(){
     //timer: "data load every 30sec"
-    setInterval('setStaticData()', 30000);
+    setInterval('setStaticData()', 10000);
 })
 
 /*
  set static contents
 */
-function setStaticData(cat, sub){
+function setStaticData(){
 
     var isProduction = location.hostname.match(/prd/) ? 1 : 0;
+    isProduction = 1;
+
     var apiUrl = isProduction ?
-        "https://prod.fj-log.com/admin/api/retrieve_static_data.php":
+        "https://prd.fj-log.com/admin/api/retrieve_static_data.php":
         "https://www.fj-log.com/admin/api/retrieve_static_data.php";
 
     $.ajax({
         type: 'GET', //couldn't use POST in jsonp protocol
         url: apiUrl,
-        async:false,
+        async:true,
         cache:false,
         dataType: 'jsonp',
         jsonpCallback: 'callbackFunc',
@@ -40,6 +42,8 @@ callbackFunc = function(jsonData){
     if(jsonData.length == 0) return false;
 
     var isProduction = location.hostname.match(/prd/) ? 1 : 0;
+    isProduction = 1;
+
     var imgPrefix = isProduction ?
         'https://s3-ap-northeast-1.amazonaws.com/prd-fuyufes2017/img/std/':
         'https://s3-ap-northeast-1.amazonaws.com/fuyufes2017/img/std/';
@@ -55,12 +59,12 @@ callbackFunc = function(jsonData){
                 $('.name_'  + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["user_name"]);
                 $('.score_' + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["score"]);
                 //$('.img_'   + cat + '_' + sub + '_'+ j).attr("data-background", imgPrefix + jsonData[i][j]["image_name"]);
-                $('.img_'   + cat + '_' + sub + '_'+ j).css({ 'background-image': 'url(' + imgPrefix + jsonData[i][j]["image_name"] + ')' });
+                $('.img_'   + cat + '_' + sub + '_'+ j).css({ 'background-image': 'url(' + imgPrefix + jsonData[i][j]["image_name"] + '.jpg)' });
             } else {
                 $('.name_'  + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["user_name"]);
                 $('.score_' + cat + '_' + sub + '_'+ j).text(jsonData[i][j]["score"]);
                 //$('.img_'   + cat + '_' + sub + '_'+ j).attr("data-src", imgPrefix + jsonData[i][j]["image_name"]);
-                $('.img_'   + cat + '_' + sub + '_'+ j).attr("src", imgPrefix + jsonData[i][j]["image_name"]);
+                $('.img_'   + cat + '_' + sub + '_'+ j).attr("src", imgPrefix + jsonData[i][j]["image_name"] + '.jpg');
             }
         }
     }
