@@ -234,7 +234,7 @@ function VR_Post($jpg){
  try {
     #変数宣言
     $url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify'
-          .'?api_key=ed08ebac4443187db1643d1d582ce43c9afc7168&version=2017-12-09';
+          .'?api_key=ed08ebac4443187db1643d1d582ce43c9afc7168&version=2017-12-09&threshold=0.0';
     $curl = curl_init();
     $data = array("images_file" => new CURLFile($jpg,mime_content_type($jpg),basename($jpg)),
                     "classifier_ids" => $classifyId);
