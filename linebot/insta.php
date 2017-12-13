@@ -89,7 +89,7 @@ try {
                       $headCount = searchHeadCount();
                       $rating = 1 - ($latestRank / $headCount);
 
-                      $message = "今までのあなたの最高スコアは" . $latestScore*100 . "点だよ";
+                      $message = "今までのあなたの最高スコアは" . kirisute($latestScore*100) . "点だよ";
 
                       //点数によって返答メッセージを分岐
                       if ( $latestScore >= 0.85 ) {
@@ -188,7 +188,7 @@ try {
   // file_put_contents("log.txt", $userName . $class . $className . $classScore,FILE_APPEND);
       $seqFileId = saveToDB($userId, $userName, $className, $classScore);
 
-		  $message = "すてきな写真をありがとう！判定の結果あなたの写真はインスタ映え度" . $classScore*100 . "点だよ";
+		  $message = "すてきな写真をありがとう！判定の結果あなたの写真はインスタ映え度" . kirisute($classScore*100) . "点だよ";
       if ( $classScore >= 0.85 ) {
           $message = $message . $iconHappy . "センス抜群" . $iconKira . $iconKira;
       } else if ( ($classScore < 0.85) && ($classScore >= 0.65) ) {
@@ -414,5 +414,10 @@ function replyMultiMessage($bot, $replyToken, ...$msgs) {
   }
 }
 
+function kirisute($num) {
+  $n = 2 ;
+  $kirisute = floor( $num * pow( 10 , $n ) ) / pow( 10 , $n ) ;
+  return $kirisute;
+}
 
  ?>

@@ -154,7 +154,7 @@ try {
 
       $seqFileId = saveToDB($userId, $userName, $className, $classScore);
 
-		  $message = "すてきな写真をありがとう！あなたの顔は出世顔判定結果" . $classScore*100 . "点だよ！";
+		  $message = "すてきな写真をありがとう！あなたの顔は出世顔判定結果" . kirisute($classScore*100) . "点だよ！";
       if ( $classScore >= 0.8 ) {
           $message = $message . "かなり大物になる予感・・・？" . $iconShock . "";
       } else if ( ($classScore < 0.8) && ($classScore >= 0.6) ) {
@@ -306,5 +306,10 @@ function replyMultiMessage($bot, $replyToken, ...$msgs) {
   }
 }
 
+function kirisute($num) {
+  $n = 2 ;
+  $kirisute = floor( $num * pow( 10 , $n ) ) / pow( 10 , $n ) ;
+  return $kirisute;
+}
 
  ?>
