@@ -33,7 +33,7 @@ $sth->execute();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Fuyufes Admin</title>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -194,7 +194,7 @@ $sth->execute();
                     echo '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
 		    echo '<td><a href="'.$imgPrefix.$row['id'].'.jpg" target="_blank">';
-		    echo '<img class="img-thumbnail" src='.$imgPrefix.$row['id'].'-thumbnail.jpeg">';
+		    echo '<img class="img-thumbnail" src="'.$imgPrefix.$row['id'].'-thumbnail.jpeg">';
 		    echo '</a></td>';
                     echo '<td>'.htmlspecialchars($row['user_id']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_name']).'</td>';
