@@ -21,7 +21,7 @@ try {
 $sql = "SELECT inst.* FROM instagenic inst";
 $sql .= " INNER JOIN (SELECT user_id, MAX(score) AS maxscore FROM instagenic GROUP BY user_id) groupscore";
 $sql .= " ON inst.user_id = groupscore.user_id AND inst.score = groupscore.maxscore";
-$sql .= " WHERE 1 AND is_enable = 1 ORDER BY score DESC LIMIT 10";
+$sql .= " WHERE 1 AND is_enable = 1 ORDER BY score DESC LIMIT 30";
 
 $sth = $dbh->prepare($sql);
 $sth->execute();

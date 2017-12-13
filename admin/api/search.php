@@ -44,7 +44,7 @@ try{
     if ($dateTo)                                $sql .= " AND created_at <= '".$dateTo."'";
     if ($category && $category != "all")        $sql .= " AND category = '".$category."'";
     if ($subcategory && $subcategory != "all")  $sql .= " AND sub_category = '".$subcategory."'";
-    $sql .= " ORDER BY score DESC LIMIT 10";
+    $sql .= " ORDER BY score DESC LIMIT 30";
 
     $sth = $dbh->prepare($sql);
     $sth->execute();
