@@ -26,7 +26,7 @@ try{
     $dateTo                     = $_POST['txtDateTo']; //"2017/11/25";
     $category                   = $_POST['slctCategory']; //"test";
     $subcategory                = $_POST['slctSubCategory']; //"test";
-    $recordNumber               = isset($_POST['txtRecordNumber']) ? $_POST['txtRecordNumber'] : 30; //"30";
+    $recordNumber               = !empty($_POST['txtRecordNumber']) ? $_POST['txtRecordNumber'] : 30; //"30";
 
     //sql生成
     $sql = "SELECT * FROM instagenic WHERE 1";
