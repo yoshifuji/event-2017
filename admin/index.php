@@ -134,6 +134,12 @@ $sth->execute();
                     </span>
                 </div>
                 <div class="search-elem">
+                    <span id="txtRecordNumber">
+                        <input type="text" class="form-control" id="txt-record-number" placeholder="30">
+                        <label for="validationCustom04"> 件 </label>
+                    </span>
+                </div>
+                <div class="search-elem">
                     <button type="button" id="btnSearch" class="btn btn-primary">
                         検索
                     </button>

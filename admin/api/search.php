@@ -26,6 +26,7 @@ try{
     $dateTo                     = $_POST['txtDateTo']; //"2017/11/25";
     $category                   = $_POST['slctCategory']; //"test";
     $subcategory                = $_POST['slctSubCategory']; //"test";
+    $recordNumber               = isset($_POST['txtRecordNumber']) ? $_POST['txtRecordNumber'] : 30; //"30";
 
     //sql生成
     $sql = "SELECT * FROM instagenic WHERE 1";
@@ -44,7 +45,7 @@ try{
     if ($dateTo)                                $sql .= " AND created_at <= '".$dateTo."'";
     if ($category && $category != "all")        $sql .= " AND category = '".$category."'";
     if ($subcategory && $subcategory != "all")  $sql .= " AND sub_category = '".$subcategory."'";
-    $sql .= " ORDER BY score DESC LIMIT 30";
+    $sql .= " ORDER BY score DESC LIMIT ".$recordNumber;
 
     $sth = $dbh->prepare($sql);
     $sth->execute();
