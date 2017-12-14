@@ -32,8 +32,6 @@ $(function(){
         }
         var jsonChecks = JSON.stringify(arrChecks);
         setElected(jsonChecks);
-
-        loadData();
     });
 })
 
