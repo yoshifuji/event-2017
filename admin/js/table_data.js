@@ -53,7 +53,8 @@ function loadData(){
             "txtDateTo"             : $("#txtDateTo :input").val(),
             "slctCategory"          : $("#category option:selected").text(),
             "slctSubCategory"       : $("#subcategory option:selected").text(),
-            "txtRecordNumber"       : $("#txtRecordNumber :input").val()
+            "txtRecordNumber"       : $("#txtRecordNumber :input").val(),
+            "chkIncludedElected"    : $("#chkElected :checkbox:checked").val()
         },
         success: function(data, dataType){
             console.log(data);

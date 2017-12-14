@@ -19,7 +19,7 @@
 .search-elem{
     padding: 10px 0 4px 0;
 }
-#chkInactive, #subcategory{
+#chkInactive, #chkElected, #subcategory{
     padding: 0 0 0 20px;
 }
 #btnElection{

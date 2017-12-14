@@ -22,6 +22,7 @@ try {
 try{
     $isIncludedLineidDuplicated = isset($_POST['chkIncludedLineid']) ? $_POST['chkIncludedLineid'] : null;
     $isIncludedInactive         = isset($_POST['chkIncludedInactive']) ? $_POST['chkIncludedInactive'] : null;
+    $isIncludedElected          = isset($_POST['chkIncludeElected']) ? $_POST['chkIncludeElected'] : null;
     $dateFrom                   = $_POST['txtDateFrom']; //"2017/11/20";
     $dateTo                     = $_POST['txtDateTo']; //"2017/11/25";
     $category                   = $_POST['slctCategory']; //"test";
@@ -33,14 +34,15 @@ try{
     if ($isIncludedLineidDuplicated){
         $sql = "SELECT inst.* FROM instagenic inst INNER JOIN";
         $sql .= " (SELECT user_id, MAX(score) AS maxscore FROM instagenic ";
-        if (($category != "all") && ($subcategory != "all"))       $sql .= " where category = '" .$category. "' and sub_category = '" .$subcategory. "'";
-        if (($category === "all") && ($subcategory != "all"))        $sql .= " where sub_category = '" .$subcategory. "'";
-        if (($category != "all") && ($subcategory === "all"))        $sql .= " where category = '" .$category. "'";
-   $sql .= " GROUP BY user_id) groupscore ";
+        if (($category != "all") && ($subcategory != "all"))  $sql .= " where category = '" .$category. "' and sub_category = '" .$subcategory. "'";
+        if (($category == "all") && ($subcategory != "all"))  $sql .= " where sub_category = '" .$subcategory. "'";
+        if (($category != "all") && ($subcategory == "all"))  $sql .= " where category = '" .$category. "'";
+        $sql .= " GROUP BY user_id) groupscore ";
         $sql .= " ON inst.user_id = groupscore.user_id AND inst.score = groupscore.maxscore";
         $sql .= " WHERE 1";
     }
     if (!$isIncludedInactive)                   $sql .= " AND is_enable = 1";
+    if ($isIncludedElected)                     $sql .= " AND is_elected = 1";
     if ($dateFrom)                              $sql .= " AND created_at >= '".$dateFrom."'";
     if ($dateTo)                                $sql .= " AND created_at <= '".$dateTo."'";
     if ($category && $category != "all")        $sql .= " AND category = '".$category."'";

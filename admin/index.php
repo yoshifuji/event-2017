@@ -99,6 +99,13 @@ $sth->execute();
                             <span class="custom-control-description">非アクティブな(無効とした)レコードも表示する</span>
                         </label>
                     </span>
+                    <span id="chkElected">
+                        <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                            <input type="checkbox" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">当選者レコードを表示する</span>
+                        </label>
+                    </span>
                 </div>
                 <div class="search-elem">
                     <span id="txtDateFrom">
@@ -149,7 +156,7 @@ $sth->execute();
                         設定画面
                     </button>
                     -->
-		            <!-- 当選チェック  -->
+		    <!-- 当選チェック  -->
                     <button id="btnElection" class="btn btn-default">
                         当選
                     </button>
