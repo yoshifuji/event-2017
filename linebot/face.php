@@ -154,7 +154,7 @@ try {
 
       $seqFileId = saveToDB($userId, $userName, $className, $classScore);
 
-		  $message = "すてきな写真をありがとう！あなたの顔は出世顔判定結果" . $classScore*100 . "点だよ！";
+		  $message = "すてきな写真をありがとう！あなたの顔は出世顔判定結果" . kirisute($classScore*100) . "点だよ！";
       if ( $classScore >= 0.8 ) {
           $message = $message . "かなり大物になる予感・・・？" . $iconShock . "";
       } else if ( ($classScore < 0.8) && ($classScore >= 0.6) ) {
@@ -234,7 +234,7 @@ function VR_Post($jpg){
  try {
     #変数宣言
     $url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify'
-          .'?api_key=ed08ebac4443187db1643d1d582ce43c9afc7168&version=2017-12-09';
+          .'?api_key=ed08ebac4443187db1643d1d582ce43c9afc7168&version=2017-12-09&threshold=0.0';
     $curl = curl_init();
     $data = array("images_file" => new CURLFile($jpg,mime_content_type($jpg),basename($jpg)),
                     "classifier_ids" => $classifyId);
@@ -306,5 +306,10 @@ function replyMultiMessage($bot, $replyToken, ...$msgs) {
   }
 }
 
+function kirisute($num) {
+  $n = 2 ;
+  $kirisute = floor( $num * pow( 10 , $n ) ) / pow( 10 , $n ) ;
+  return $kirisute;
+}
 
  ?>

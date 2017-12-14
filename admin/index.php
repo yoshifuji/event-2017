@@ -21,7 +21,7 @@ try {
 $sql = "SELECT inst.* FROM instagenic inst";
 $sql .= " INNER JOIN (SELECT user_id, MAX(score) AS maxscore FROM instagenic GROUP BY user_id) groupscore";
 $sql .= " ON inst.user_id = groupscore.user_id AND inst.score = groupscore.maxscore";
-$sql .= " WHERE 1 AND is_enable = 1 ORDER BY score DESC LIMIT 10";
+$sql .= " WHERE 1 AND is_enable = 1 ORDER BY score DESC LIMIT 30";
 
 $sth = $dbh->prepare($sql);
 $sth->execute();
@@ -33,7 +33,7 @@ $sth->execute();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Fuyufes Admin</title>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -134,6 +134,12 @@ $sth->execute();
                     </span>
                 </div>
                 <div class="search-elem">
+                    <span id="txtRecordNumber">
+                        <input type="text" class="form-control" id="txt-record-number" placeholder="30">
+                        <label for="validationCustom04"> 件 </label>
+                    </span>
+                </div>
+                <div class="search-elem">
                     <button type="button" id="btnSearch" class="btn btn-primary">
                         検索
                     </button>
@@ -176,7 +182,6 @@ $sth->execute();
                 <th>チェック</th>
                 <th>#</th>
                 <th>画像</th>
-                <th>画像名</th>
                 <th>ユーザーID</th>
                 <th>ユーザー名</th>
                 <th>スコア</th>
@@ -198,8 +203,9 @@ $sth->execute();
                     echo '<tr>';
                     echo '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
-                    echo '<td><img class="img-thumbnail" src='.$imgPrefix.$row['id'].'-thumbnail.jpeg" width="100" height="100"></td>';
-                    echo '<td>'.htmlspecialchars($row['image_name']).'</td>';
+		    echo '<td><a href="'.$imgPrefix.$row['id'].'.jpg" target="_blank">';
+		    echo '<img class="img-thumbnail" src="'.$imgPrefix.$row['id'].'-thumbnail.jpeg">';
+		    echo '</a></td>';
                     echo '<td>'.htmlspecialchars($row['user_id']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_name']).'</td>';
                     echo '<td>'.htmlspecialchars($row['score']).'</td>';

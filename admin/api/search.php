@@ -26,12 +26,17 @@ try{
     $dateTo                     = $_POST['txtDateTo']; //"2017/11/25";
     $category                   = $_POST['slctCategory']; //"test";
     $subcategory                = $_POST['slctSubCategory']; //"test";
+    $recordNumber               = !empty($_POST['txtRecordNumber']) ? $_POST['txtRecordNumber'] : 30; //"30";
 
     //sql生成
     $sql = "SELECT * FROM instagenic WHERE 1";
     if ($isIncludedLineidDuplicated){
         $sql = "SELECT inst.* FROM instagenic inst INNER JOIN";
-        $sql .= " (SELECT user_id, MAX(score) AS maxscore FROM instagenic GROUP BY user_id) groupscore ";
+        $sql .= " (SELECT user_id, MAX(score) AS maxscore FROM instagenic ";
+        if (($category != "all") && ($subcategory != "all"))       $sql .= " where category = '" .$category. "' and sub_category = '" .$subcategory. "'";
+        if (($category === "all") && ($subcategory != "all"))        $sql .= " where sub_category = '" .$subcategory. "'";
+        if (($category != "all") && ($subcategory === "all"))        $sql .= " where category = '" .$category. "'";
+   $sql .= " GROUP BY user_id) groupscore ";
         $sql .= " ON inst.user_id = groupscore.user_id AND inst.score = groupscore.maxscore";
         $sql .= " WHERE 1";
     }
@@ -40,7 +45,7 @@ try{
     if ($dateTo)                                $sql .= " AND created_at <= '".$dateTo."'";
     if ($category && $category != "all")        $sql .= " AND category = '".$category."'";
     if ($subcategory && $subcategory != "all")  $sql .= " AND sub_category = '".$subcategory."'";
-    $sql .= " ORDER BY score DESC LIMIT 10";
+    $sql .= " ORDER BY score DESC LIMIT ".$recordNumber;
 
     $sth = $dbh->prepare($sql);
     $sth->execute();
@@ -57,8 +62,9 @@ try{
         $return_str .= ($cnt % 2 == 0) ? '<tr role="row" class="even">' : '<tr role="row" class="odd">';
         $return_str .= '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
         $return_str .= '<td>'.htmlspecialchars($row['id']).'</td>';
-        $return_str .= '<td><img class="img-thumbnail" src="'.$imgPrefix.$row['id'].'-thumbnail.jpeg" width="100" height="100"></td>';
-        $return_str .= '<td>'.htmlspecialchars($row['image_name']).'</td>';
+	$return_str .= '<td><a href="'.$imgPrefix.$row['id'].'.jpg" target="_blank">';
+	$return_str .= '<img class="img-thumbnail" src="'.$imgPrefix.$row['id'].'-thumbnail.jpeg">';
+	$return_str .= '</a></td>';
         $return_str .= '<td>'.htmlspecialchars($row['user_id']).'</td>';
         $return_str .= '<td>'.htmlspecialchars($row['user_name']).'</td>';
         $return_str .= '<td>'.htmlspecialchars($row['score']).'</td>';
