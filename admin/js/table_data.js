@@ -15,6 +15,9 @@ $(function(){
         if(arrChecks.length == 0){
             return true;
         }
+        if (arrChecks[0] == ""){
+            arrChecks.shift();
+        }
         var jsonChecks = JSON.stringify(arrChecks);
         deleteData(jsonChecks);
 
@@ -30,6 +33,10 @@ $(function(){
         if(arrChecks.length == 0){
             return true;
         }
+        if (arrChecks[0] == ""){
+            arrChecks.shift();
+        }
+
         var jsonChecks = JSON.stringify(arrChecks);
         setElected(jsonChecks);
     });

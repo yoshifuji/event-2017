@@ -144,10 +144,12 @@ $sth->execute();
                         検索
                     </button>
                     <!-- モーダル表示 -->
+                    <!--
                     <button id="btn-setting" class="btn btn-default" data-toggle="modal" data-target="#modal-example">
                         設定画面
                     </button>
-		    <!-- 当選チェック  -->
+                    -->
+		            <!-- 当選チェック  -->
                     <button id="btnElection" class="btn btn-default">
                         当選
                     </button>
@@ -203,9 +205,9 @@ $sth->execute();
                     echo '<tr>';
                     echo '<td><div><label><input id='.htmlspecialchars($row['id']).' type="checkbox"></label></div></td>';
                     echo '<td>'.htmlspecialchars($row['id']).'</td>';
-		    echo '<td><a href="'.$imgPrefix.$row['id'].'.jpg" target="_blank">';
-		    echo '<img class="img-thumbnail" src="'.$imgPrefix.$row['id'].'-thumbnail.jpeg">';
-		    echo '</a></td>';
+                    echo '<td><a href="'.$imgPrefix.$row['id'].'.jpg" target="_blank">';
+                    echo '<img class="img-thumbnail" src="'.$imgPrefix.$row['id'].'-thumbnail.jpeg">';
+                    echo '</a></td>';
                     echo '<td>'.htmlspecialchars($row['user_id']).'</td>';
                     echo '<td>'.htmlspecialchars($row['user_name']).'</td>';
                     echo '<td>'.htmlspecialchars($row['score']).'</td>';
