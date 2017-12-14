@@ -141,6 +141,10 @@ $sth->execute();
                     <button id="btn-setting" class="btn btn-default" data-toggle="modal" data-target="#modal-example">
                         設定画面
                     </button>
+		    <!-- 当選チェック  -->
+                    <button id="btnElection" class="btn btn-default">
+                        当選
+                    </button>
                 </div>
             </form>
         </div>
