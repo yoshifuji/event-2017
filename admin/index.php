@@ -190,7 +190,7 @@ $sth->execute();
             <tr>
                 <th>チェック</th>
                 <th>#</th>
-                <th>画像</th>
+                <th style="width:100px;height:100px;">画像</th>
                 <th>ユーザーID</th>
                 <th>ユーザー名</th>
                 <th>スコア</th>
